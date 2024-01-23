@@ -7,7 +7,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class ChatHandler extends TextWebSocketHandler {
     /*클라이언트가 접속 시 호출되는 메서드*/
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+    public void afterConnectionEstablished(WebSocketSession session){
         list.add(session);
 
         log.info("[ChatHandler] 클라이언트 접속 : {} ", session);
@@ -38,7 +37,7 @@ public class ChatHandler extends TextWebSocketHandler {
 
     /*클라이언트가 접속 해제 시 호출되는 메서드*/
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status){
         log.info("[ChatHandler] 클라이언트 접속 해제 : {}", session);
         list.remove(session);
     }

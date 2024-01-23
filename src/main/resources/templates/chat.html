@@ -48,7 +48,7 @@
 
         // var websocket = new WebSocket("ws://localhost:8000/ws/chat");
         var sockJs = new SockJS("/ws/chat", {transports: ["websocket", "xhr-streaming", "xhr-polling"]});
-        var stomp = webstomp
+        // var stomp = webstomp
         sockJs.onmessage = onMessage;
         sockJs.onopen = onOpen;
         sockJs.onclose = onClose;
