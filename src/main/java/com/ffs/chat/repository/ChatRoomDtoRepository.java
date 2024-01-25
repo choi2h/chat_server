@@ -1,7 +1,8 @@
 package com.ffs.chat.repository;
 
-import com.ffs.chat.dto.ChatRoom;
-import com.ffs.chat.service.RedisSubscriber;
+import com.ffs.chat.dto.ChatRoomDto;
+import com.ffs.chat.service.broker.RedisSubscriber;
+import com.ffs.chat.util.IdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
@@ -12,11 +13,15 @@ import java.util.*;
 
 @Repository
 @RequiredArgsConstructor
-public class ChatRoomRepository {
+public class ChatRoomDtoRepository {
+
+    private static final String ID_PREFIX="chat";
+    private static final String ID_TYPE = "room";
 
     private final RedisMessageListenerContainer redisMessageListenerContainer;
     private final RedisSubscriber redisSubscriber;
-    private Map<String, ChatRoom> chatRoomMap;
+    private final IdGenerator idGenerator;
+    private Map<String, ChatRoomDto> chatRoomMap;
     private Map<String, ChannelTopic> topics;
 
     @PostConstruct
@@ -25,16 +30,16 @@ public class ChatRoomRepository {
         topics = new HashMap<>();
     }
 
-    public List<ChatRoom> findAllRooms(){
+    public List<ChatRoomDto> findAllRooms(){
         return new ArrayList<>(chatRoomMap.values());
     }
 
-    public ChatRoom findRoomById(String id){
+    public ChatRoomDto findRoomById(String id){
         return chatRoomMap.get(id);
     }
 
-    public ChatRoom createChatRoom(String name){
-        ChatRoom room = ChatRoom.create(name);
+    public void createChatRoom(String name){
+        ChatRoomDto room = getNewChatRoom(name);
         chatRoomMap.put(room.getRoomId(), room);
 
         ChannelTopic topic = topics.get(room.getRoomId());
@@ -42,7 +47,11 @@ public class ChatRoomRepository {
             createTopic(room.getRoomId());
         }
 
-        return room;
+    }
+
+    private ChatRoomDto getNewChatRoom(String name) {
+        String roomId = idGenerator.createNewId(ID_PREFIX, ID_TYPE);
+        return ChatRoomDto.builder().roomId(roomId).name(name).build();
     }
 
     private void createTopic(String roomId) {
@@ -53,6 +62,5 @@ public class ChatRoomRepository {
 
     public ChannelTopic getTopic(String roomId) {
         return topics.get(roomId);
-
     }
 }

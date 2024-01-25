@@ -1,7 +1,7 @@
-package com.ffs.chat.service;
+package com.ffs.chat.service.broker;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ffs.chat.dto.ChatMessage;
+import com.ffs.chat.dto.ChatMessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.Message;
@@ -30,7 +30,7 @@ public class RedisSubscriber implements MessageListener {
         String publishMessage = (String) redisTemplate.getStringSerializer().deserialize(message.getBody());
         // chatMessage 객체로 매핑
         try {
-            ChatMessage roomMessage = objectMapper.readValue(publishMessage, ChatMessage.class);
+            ChatMessageDto roomMessage = objectMapper.readValue(publishMessage, ChatMessageDto.class);
 
             log.info("Send message on {}. {}:{}",roomMessage.getRoomId(), roomMessage.getWriter(), roomMessage.getMessage());
             //webSocket 구독자에게 채팅 메시지 Send
