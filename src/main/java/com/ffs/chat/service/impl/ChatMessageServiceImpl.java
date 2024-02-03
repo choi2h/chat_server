@@ -7,6 +7,8 @@ import com.ffs.chat.util.IdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class ChatMessageServiceImpl implements ChatMessageService {
@@ -26,6 +28,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                 .memberId(memberId)
                 .roomId(roomId)
                 .content(message)
+                .sendTime(LocalDateTime.now())
                 .build();
 
         chatMessageRepository.save(chatMessage);
