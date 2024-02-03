@@ -1,6 +1,7 @@
 package com.ffs.chat.repository;
 
 import com.ffs.chat.dto.ChatRoomDto;
+import com.ffs.chat.dto.request.CreateChatRoomRequest;
 import com.ffs.chat.service.broker.RedisSubscriber;
 import com.ffs.chat.util.IdGenerator;
 import lombok.RequiredArgsConstructor;
@@ -38,8 +39,8 @@ public class ChatRoomDtoRepository {
         return chatRoomMap.get(id);
     }
 
-    public void createChatRoom(String name){
-        ChatRoomDto room = getNewChatRoom(name);
+    public void createChatRoom(CreateChatRoomRequest request){
+        ChatRoomDto room = getNewChatRoom(request.getName());
         chatRoomMap.put(room.getRoomId(), room);
 
         ChannelTopic topic = topics.get(room.getRoomId());
