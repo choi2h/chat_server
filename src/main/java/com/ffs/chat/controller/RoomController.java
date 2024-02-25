@@ -2,6 +2,7 @@ package com.ffs.chat.controller;
 
 import com.ffs.chat.dto.ChatRoomDto;
 import com.ffs.chat.dto.request.CreateChatRoomRequest;
+import com.ffs.chat.dto.response.EnteredChatRoomResponse;
 import com.ffs.chat.dto.response.SearchChatRoomsResponse;
 import com.ffs.chat.repository.ChatRoomDtoRepository;
 import com.ffs.chat.service.MemberService;
@@ -45,11 +46,16 @@ public class RoomController {
 
     //채팅방 조회
     @GetMapping("/room")
-    public String getRoom(String roomId, Model model){
+    public ResponseEntity<Object> getRoom(@RequestParam String roomId, Model model){
         log.info("Get chat room, roomID : " + roomId);
 
-        model.addAttribute("room", repository.findRoomById(roomId));
-        model.addAttribute("userName", memberService.createMember());
-        return "room";
+        String memberName = memberService.createMember();
+        EnteredChatRoomResponse response = EnteredChatRoomResponse
+                .builder()
+                .roomId(roomId)
+                .memberName(memberName)
+                .build();
+
+        return ResponseEntity.ok(response);
     }
 }
