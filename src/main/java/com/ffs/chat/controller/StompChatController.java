@@ -22,6 +22,8 @@ public class StompChatController {
     @MessageMapping(value = "/chat/enter")
     public void enter(ChatMessageDto message){
         log.info("{} entered client in {}.", message.getWriter(), message.getRoomId());
+
+        // TODO Enum 클래스로 메시지 분리
         message.setMessage(message.getWriter() + "님이 채팅방에 참여하였습니다.");
 
         redisPublisher.publish(message.getRoomId(), message);
