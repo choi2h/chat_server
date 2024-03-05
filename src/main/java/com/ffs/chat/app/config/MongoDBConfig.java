@@ -1,4 +1,4 @@
-package com.ffs.chat.config;
+package com.ffs.chat.app.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

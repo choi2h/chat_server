@@ -1,27 +1,25 @@
-package com.ffs.chat.service;
+package com.ffs.chat.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ffs.chat.model.FcmMessage;
 import com.ffs.chat.model.Message;
 import com.ffs.chat.model.Notification;
+import com.ffs.chat.service.MessageService;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class FirebaseCloudMessageService {
+public class FirebaseCloudMessageService implements MessageService {
 
     private final String API_URL = "https://fcm.googleapis.com/v1/projects/fitnessfollow-1d8fa/messages:send";
     private final static String FIREBASE_CONFIG_PATH = "firebase/fitnessfollow-1d8fa-94919153529f.json";

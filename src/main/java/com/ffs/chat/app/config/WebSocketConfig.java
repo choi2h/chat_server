@@ -1,6 +1,5 @@
-package com.ffs.chat.config;
+package com.ffs.chat.app.config;
 
-import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.*;
 
@@ -19,19 +18,3 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.enableSimpleBroker("/topic", "/queue");
     }
 }
-
-/*@Configuration
-@RequiredArgsConstructor
-@EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer {
-
-    private final ChatHandler chatHandler;
-
-    @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(chatHandler, "ws/chat")
-                .setAllowedOrigins("http://*:8000", "http://*.*.*.*:8000")
-                .withSockJS()
-                .setClientLibraryUrl("http://localhost:8000/myapp/js/sock-client/js");
-    }
-}*/
