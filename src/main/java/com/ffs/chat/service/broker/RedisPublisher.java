@@ -1,7 +1,7 @@
 package com.ffs.chat.service.broker;
 
 import com.ffs.chat.dto.ChatMessageDto;
-import com.ffs.chat.repository.ChatRoomDtoRepository;
+import com.ffs.chat.repository.ChatRoomRepository;
 import com.ffs.chat.service.ChatMessageService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class RedisPublisher {
 
     private final RedisTemplate<String, Object> redisTemplate;
-    private final ChatRoomDtoRepository chatRoomRepository;
+    private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageService chatMessageService;
 
     public void publish(String roomId, ChatMessageDto message) {

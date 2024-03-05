@@ -1,7 +1,7 @@
 package com.ffs.chat.controller;
 
 import com.ffs.chat.dto.request.NotificationRequest;
-import com.ffs.chat.service.FirebaseCloudMessageService;
+import com.ffs.chat.service.impl.FirebaseCloudMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

@@ -4,7 +4,7 @@ import com.ffs.chat.dto.ChatRoomDto;
 import com.ffs.chat.dto.request.CreateChatRoomRequest;
 import com.ffs.chat.dto.response.EnteredChatRoomResponse;
 import com.ffs.chat.dto.response.SearchChatRoomsResponse;
-import com.ffs.chat.repository.ChatRoomDtoRepository;
+import com.ffs.chat.service.ChatRoomService;
 import com.ffs.chat.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(value = "/chat")
 public class RoomController {
-
-    private final ChatRoomDtoRepository repository;
+    private final ChatRoomService chatRoomService;
     private final MemberService memberService;
 
     //채팅방 목록 조회
@@ -29,7 +28,7 @@ public class RoomController {
     public ResponseEntity<Object> rooms(){
         log.info("Get all Chat Rooms");
 
-        List<ChatRoomDto> rooms = repository.findAllRooms();
+        List<ChatRoomDto> rooms = chatRoomService.findAllRooms();
         SearchChatRoomsResponse response = SearchChatRoomsResponse.builder().chatRooms(rooms).build();
         return ResponseEntity.ok().body(response);
     }
@@ -39,7 +38,7 @@ public class RoomController {
     public ResponseEntity<?> create(@RequestBody CreateChatRoomRequest request){
         log.info("Create Chat Room , name: " + request.getName());
 
-        repository.createChatRoom(request);
+        chatRoomService.createChatRoom(request);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
