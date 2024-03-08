@@ -1,0 +1,26 @@
+server:
+  port: 8000
+
+spring:
+  thymeleaf:
+    prefix: classpath:templates/
+    suffix: .html
+    check-template-location: true
+    cache: false
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  data:
+    mongodb:
+      database: chat
+      port: 27017
+      host: 127.0.0.1
+
+security:
+  jwt:
+    token:
+      secret-key: secret
+
+logging:
+  level:
+    root: debug
