@@ -2,5 +2,5 @@ package com.ffs.chat.service;
 
 public interface ChatMessageService {
 
-    void saveChatMessage(String memberId, String roomId, String message);
+    void saveChatMessage(Long roomId, Long writerId, String writerName, String message);
 }

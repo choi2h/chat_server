@@ -20,12 +20,13 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     private final IdGenerator idGenerator;
 
     @Override
-    public void saveChatMessage(String memberId, String roomId, String message) {
+    public void saveChatMessage(Long roomId, Long userId, String userName, String message) {
         String messageId = idGenerator.createNewId(ID_PREFIX, ID_TYPE);
 
         ChatMessage chatMessage = ChatMessage.builder()
                 .messageId(messageId)
-                .memberId(memberId)
+                .writerId(userId)
+                .writerName(userName)
                 .roomId(roomId)
                 .content(message)
                 .sendTime(LocalDateTime.now())

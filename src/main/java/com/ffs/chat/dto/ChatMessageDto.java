@@ -6,12 +6,12 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ChatMessageDto {
-    private String roomId;
-    private String writer;
+    private Long roomId;
+    private Long writerId;
+    private String writerName;
     private String message;
 
     public void setMessage(String message) {
         this.message = message;
-
     }
 }
