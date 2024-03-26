@@ -15,11 +15,27 @@ spring:
       database: chat
       port: 27017
       host: 127.0.0.1
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ffs?serverTimezone=UTC&characterEncoding=UTF-8
+    username: ffsuser
+    password: sec1234
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
 
 security:
   jwt:
     token:
       secret-key: secret
+
+manage-server:
+  address : 127.0.0.1
+  port : 8080
 
 logging:
   level:
