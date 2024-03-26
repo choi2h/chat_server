@@ -28,9 +28,10 @@ public class PresenceServiceImpl implements PresenceService {
 
         // 접속자 수 증가
         Long connectionCount = presenceRepository.increaseConnectionCount();
-        log.debug("[INCREASE] Total connection user count : {}", connectionCount);
+        log.info("[INCREASE] Total connection user count : {}", connectionCount);
 
         // user session 정보 저장
+        log.info("[CONNECT] sessionKey={}, userId={}", sessionId, userId);
         String sessionKey = String.format(SESSION_KEY_FORMAT, sessionId);
         presenceRepository.saveSessionInfo(sessionKey, userId);
 
@@ -55,7 +56,7 @@ public class PresenceServiceImpl implements PresenceService {
 
         // 접속자 수 감소
         Long connectionCount = presenceRepository.decreaseConnectionCount();
-        log.debug("[DECREASE] Total connection user count : {}", connectionCount);
+        log.info("[DECREASE] Total connection user count : {}", connectionCount);
 
         // mongoDB에 user 접속 기록 저장
         saveConnectionInfo(userId, false);
@@ -74,7 +75,7 @@ public class PresenceServiceImpl implements PresenceService {
             String userKey = String.format(USER_KEY_FORMAT, userId);
             presenceRepository.saveUserPresence(userKey, roomId);
 
-            log.debug("[Enter] user : {} , room : {}", userId, roomId);
+            log.info("[Enter] user : {} , room : {}", userId, roomId);
         }
     }
 
@@ -88,7 +89,7 @@ public class PresenceServiceImpl implements PresenceService {
             String userKey = String.format(USER_KEY_FORMAT, userId);
             presenceRepository.saveUserPresence(userKey, ROBBY);
 
-            log.debug("[Exit] user : {}", userId);
+            log.info("[Exit] user : {}", userId);
         }
     }
 

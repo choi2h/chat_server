@@ -23,7 +23,7 @@ public class NotificationController {
 
     @PostMapping("/api/fcm")
     public ResponseEntity<?> pushMessage(@RequestBody NotificationRequest request) throws IOException {
-        log.info("Recieve request for notification. request={}", request);
+        log.info("Receive request for notification. request={}", request);
 
         firebaseCloudMessageService.sendMessageTo(
                 request.getToken(),
