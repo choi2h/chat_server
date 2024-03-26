@@ -1,7 +1,9 @@
 package com.ffs.chat.model;
 
 import com.ffs.chat.util.DateTimeUtil;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,9 +11,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @Document(collection = "connection_log")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ConnectionLog {
+
     @Id
-    private Long id;
+    private String id;
     private String userId;
     private String accessDate;
     private String accessTime;

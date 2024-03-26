@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EnterChatRoomRequest {
-    private String roomId;
+    private Long roomId;
 }

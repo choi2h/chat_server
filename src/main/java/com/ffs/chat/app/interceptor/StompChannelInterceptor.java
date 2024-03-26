@@ -51,7 +51,10 @@ public class StompChannelInterceptor implements ChannelInterceptor {
 
                 String destination = accessor.getDestination();
                 if(destination != null && !destination.isEmpty()) {
-                    presenceService.enter(sessionId, destination);
+                    String[] arr = accessor.getDestination().split("/");
+                    String roomId = arr[arr.length-1];
+
+                    presenceService.enter(sessionId, roomId);
                 }
 
             case UNSUBSCRIBE:

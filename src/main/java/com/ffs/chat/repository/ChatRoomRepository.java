@@ -1,66 +1,21 @@
 package com.ffs.chat.repository;
 
-import com.ffs.chat.dto.ChatRoomDto;
-import com.ffs.chat.service.broker.RedisSubscriber;
-import com.ffs.chat.util.IdGenerator;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.listener.ChannelTopic;
-import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.stereotype.Repository;
+import com.ffs.chat.model.ChatRoom;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.Repository;
 
-import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
-@Repository
-@RequiredArgsConstructor
-public class ChatRoomRepository {
+public interface ChatRoomRepository extends Repository<ChatRoom, Long> {
 
-    private static final String ID_PREFIX="chat";
-    private static final String ID_TYPE = "room";
+    ChatRoom save(ChatRoom chatRoom);
 
-    private final RedisMessageListenerContainer redisMessageListenerContainer;
-    private final RedisSubscriber redisSubscriber;
-    private final IdGenerator idGenerator;
-    private Map<String, ChatRoomDto> chatRoomMap;
-    private Map<String, ChannelTopic> topics;
+    Optional<ChatRoom> findByRoomId(Long roomId);
 
-    @PostConstruct
-    private void init(){
-        chatRoomMap = new LinkedHashMap<>();
-        topics = new HashMap<>();
-    }
-
-    public List<ChatRoomDto> findAllRooms(){
-        return new ArrayList<>(chatRoomMap.values());
-    }
-
-    public ChatRoomDto findRoomById(String id){
-        return chatRoomMap.get(id);
-    }
-
-    public void createChatRoom(String roomName){
-        ChatRoomDto room = getNewChatRoom(roomName);
-        chatRoomMap.put(room.getRoomId(), room);
-
-        ChannelTopic topic = topics.get(room.getRoomId());
-        if(topic == null) {
-            createTopic(room.getRoomId());
-        }
-
-    }
-
-    private ChatRoomDto getNewChatRoom(String name) {
-        String roomId = idGenerator.createNewId(ID_PREFIX, ID_TYPE);
-        return ChatRoomDto.builder().roomId(roomId).name(name).build();
-    }
-
-    private void createTopic(String roomId) {
-        ChannelTopic topic = new ChannelTopic(roomId);
-        redisMessageListenerContainer.addMessageListener(redisSubscriber, topic);
-        topics.put(roomId, topic);
-    }
-
-    public ChannelTopic getTopic(String roomId) {
-        return topics.get(roomId);
-    }
+    @Query("SELECT c FROM ChatRoom c " +
+            "JOIN RoomUser r " +
+            "ON c.roomId = r.roomId " +
+            "WHERE r.userId = :userId")
+    List<ChatRoom> findByMemberId(Long userId);
 }

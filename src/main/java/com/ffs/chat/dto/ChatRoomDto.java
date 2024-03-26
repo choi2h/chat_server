@@ -5,21 +5,45 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
 public class ChatRoomDto {
 
-    private String roomId;
-    private String name;
-    //WebSocketSession은 Spring에서 Websocket Connection이 맺어진 세션
-    private Set<WebSocketSession> sessions = new HashSet<>();
+    private Long roomId;
+    private String roomName;
+    private List<UserInfo> userInfoList;
+    private LocalDateTime createAt;
 
     @Builder
-    public ChatRoomDto(String roomId, String name){
+    public ChatRoomDto(Long roomId, LocalDateTime createAt){
         this.roomId = roomId;
-        this.name = name;
+        this.createAt = createAt;
+        this.userInfoList = new ArrayList<>();
     }
+
+    public void addUserInfo(Long userId, String userName) {
+        UserInfo userInfo = new UserInfo(userId, userName);
+        userInfoList.add(userInfo);
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+}
+
+class UserInfo {
+    Long userId;
+    String userName;
+
+    UserInfo(Long userId, String userName) {
+        this.userId = userId;
+        this.userName = userName;
+    }
+
 }

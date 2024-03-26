@@ -2,13 +2,14 @@ package com.ffs.chat.service;
 
 import com.ffs.chat.dto.ChatRoomDto;
 import com.ffs.chat.dto.request.CreateChatRoomRequest;
+import com.ffs.chat.dto.response.CreateChatRoomResponse;
 
 import java.util.List;
 
 public interface ChatRoomService {
 
-    List<ChatRoomDto> findAllRooms();
+    List<ChatRoomDto> findAllRooms(Long userId);
 
-    void createChatRoom(CreateChatRoomRequest request);
+    CreateChatRoomResponse createChatRoom(CreateChatRoomRequest request);
 
 }

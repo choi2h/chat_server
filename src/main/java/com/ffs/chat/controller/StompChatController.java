@@ -21,10 +21,10 @@ public class StompChatController {
     //"/pub/chat/enter"
     @MessageMapping(value = "/chat/enter")
     public void enter(ChatMessageDto message){
-        log.info("{} entered client in {}.", message.getWriter(), message.getRoomId());
+        log.info("{} entered client in {}.", message.getWriterId(), message.getRoomId());
 
         // TODO Enum 클래스로 메시지 분리
-        message.setMessage(message.getWriter() + "님이 채팅방에 참여하였습니다.");
+        message.setMessage(message.getWriterName() + "님이 채팅방에 참여하였습니다.");
 
         redisPublisher.publish(message.getRoomId(), message);
 //        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
@@ -32,7 +32,7 @@ public class StompChatController {
 
     @MessageMapping(value = "/chat/message")
     public void message(ChatMessageDto message){
-        log.info("Send message in {}. client={}", message.getRoomId(), message.getWriter());
+        log.info("Send message in {}. client={}", message.getRoomId(), message.getWriterId());
 
         redisPublisher.publish(message.getRoomId(), message);
 //        template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
