@@ -43,7 +43,6 @@ public class WebSecurityConfig {
                 .and()
                 .addFilter(jwtAuthorizationFilter)
                 .authorizeRequests(request -> request
-                                .antMatchers("/chat/*").permitAll()
                                 .anyRequest().authenticated()	// 어떠한 요청
                                 )
                 .build();
