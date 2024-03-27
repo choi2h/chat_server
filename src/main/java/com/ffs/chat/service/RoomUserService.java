@@ -6,8 +6,10 @@ import java.util.List;
 
 public interface RoomUserService {
 
-    void getNewRoomUser(Long roomId, Long userId, String userName);
+    void saveRoomUser(Long roomId, Long userId, String userName);
 
     List<RoomUser> findRoomUserByRoomId(Long roomId);
+
+    Long findRoomIdByRoomUsers(Long userId1, Long userId2);
 
 }

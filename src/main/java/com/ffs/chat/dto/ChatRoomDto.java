@@ -1,8 +1,6 @@
 package com.ffs.chat.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.time.LocalDateTime;
@@ -37,13 +35,11 @@ public class ChatRoomDto {
     }
 }
 
+
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 class UserInfo {
     Long userId;
     String userName;
-
-    UserInfo(Long userId, String userName) {
-        this.userId = userId;
-        this.userName = userName;
-    }
-
 }

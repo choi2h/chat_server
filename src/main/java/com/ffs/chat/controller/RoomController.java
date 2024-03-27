@@ -1,5 +1,6 @@
 package com.ffs.chat.controller;
 
+import com.ffs.chat.app.auth.PrincipalDetails;
 import com.ffs.chat.dto.ChatRoomDto;
 import com.ffs.chat.dto.request.CreateChatRoomRequest;
 import com.ffs.chat.dto.response.CreateChatRoomResponse;
@@ -10,6 +11,7 @@ import com.ffs.chat.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +27,10 @@ public class RoomController {
 
     //채팅방 목록 조회
     @GetMapping(value = "/rooms")
-    public ResponseEntity<Object> rooms(@RequestParam Long userId){
+    public ResponseEntity<Object> rooms(@AuthenticationPrincipal PrincipalDetails principalDetails){
         log.info("Get all Chat Rooms");
 
+        Long userId = principalDetails.getId();
         List<ChatRoomDto> rooms = chatRoomService.findAllRooms(userId);
         SearchChatRoomsResponse response = SearchChatRoomsResponse.builder().chatRooms(rooms).build();
         return ResponseEntity.ok().body(response);

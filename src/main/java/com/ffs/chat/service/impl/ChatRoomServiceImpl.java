@@ -42,18 +42,21 @@ public class ChatRoomServiceImpl implements ChatRoomService {
             throw new IllegalStateException("NOT_HAVE_PERMISSION_TO_MEMBER");
         }
 
-        LocalDateTime currentTime = LocalDateTime.now();
-        ChatRoom chatRoom = new ChatRoom(currentTime);
-        chatRoomRepository.save(chatRoom);
-
-        Long roomId = chatRoom.getRoomId();
         String memberName = matchingResult.getMemberName();
-        roomUserService.getNewRoomUser(roomId, targetId, memberName);
-
         String employeeName = matchingResult.getEmployeeName();
-        roomUserService.getNewRoomUser(roomId, myId, employeeName);
+        Long roomId = roomUserService.findRoomIdByRoomUsers(myId, targetId);
+        if(roomId == null) {
+            LocalDateTime currentTime = LocalDateTime.now();
+            ChatRoom chatRoom = new ChatRoom(currentTime);
+            chatRoomRepository.save(chatRoom);
 
-        topicRepository.registerChannelTopic(roomId);
+            roomId = chatRoom.getRoomId();
+
+            roomUserService.saveRoomUser(roomId, targetId, memberName);
+            roomUserService.saveRoomUser(roomId, myId, employeeName);
+
+            topicRepository.registerChannelTopic(roomId);
+        }
 
         return CreateChatRoomResponse.builder()
                 .roomId(roomId)

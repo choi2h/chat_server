@@ -30,14 +30,4 @@ public class ChatRoom {
         this.createdAt = createdAt;
         roomUserList = new ArrayList<>();
     }
-
-    public void addRoomUser(RoomUser newRoomUser) {
-        for(RoomUser roomUser : roomUserList) {
-            if(roomUser.getUserId().equals(newRoomUser.getUserId())) {
-                return;
-            }
-        }
-
-        roomUserList.add(newRoomUser);
-    }
 }

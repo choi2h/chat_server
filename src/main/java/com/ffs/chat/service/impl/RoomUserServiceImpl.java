@@ -15,7 +15,7 @@ public class RoomUserServiceImpl implements RoomUserService {
     private final RoomUserRepository roomUserRepository;
 
     @Override
-    public void getNewRoomUser(Long roomId, Long userId, String userName) {
+    public void saveRoomUser(Long roomId, Long userId, String userName) {
         RoomUser roomUSer =  RoomUser.builder()
                 .roomId(roomId)
                 .userId(userId)
@@ -28,5 +28,10 @@ public class RoomUserServiceImpl implements RoomUserService {
     @Override
     public List<RoomUser> findRoomUserByRoomId(Long roomId) {
         return roomUserRepository.findAllByRoomId(roomId);
+    }
+
+    @Override
+    public Long findRoomIdByRoomUsers(Long userId1, Long userId2) {
+        return roomUserRepository.findRoomIdByRoomUsers(userId1, userId2);
     }
 }
